@@ -50,6 +50,7 @@ class PatientNames {
         // write your answer here
 
         // --------------------------------------------
+        Node toRemove = theTree.findPatient(patientName);
 
 
 
