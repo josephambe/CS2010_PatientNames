@@ -12,6 +12,7 @@ class PatientNames {
     // is accessible to all methods in this class
 
     // --------------------------------------------
+    BinaryTree theTree;
 
 
 
@@ -24,7 +25,7 @@ class PatientNames {
 
         // --------------------------------------------
 
-
+        theTree = new BinaryTree();
 
         // --------------------------------------------
     }
@@ -37,6 +38,7 @@ class PatientNames {
 
         // --------------------------------------------
 
+        theTree.addNode(patientName.substring(0,1), patientName, gender);
 
 
         // --------------------------------------------
