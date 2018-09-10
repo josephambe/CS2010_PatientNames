@@ -67,6 +67,7 @@ public class BinaryTree {
         return focusNode;
     }
 
+
     public void remove(Node focusNode){
         Node parentNode = this.parent;
         Node toRemove = focusNode;
@@ -134,7 +135,39 @@ public class BinaryTree {
         }
 
         return replacement;
+    }
 
+    //BALANCING METHODS
+
+    //CASE 1: Left Heavy - Outside Inbalance
+    //CASE 2: Left Heavy - Inside Inbalance
+    //CASE 3: Right Heavy - Outisde Inbalance
+    //CASE 4: Right Heavy - Inside Inbalance
+
+    //FINDING VALUES LESS THAN END VALE.
+    int rank(Node vertex, String endValue){
+        Node middleNode = vertex;
+        if(middleNode == null){
+            return 0;
+        } else if(middleNode.key.equals(endValue)){
+            return 1 + sizeOfSubtree();
+        } else if(middleNode.key.compareTo(endValue) < 0){ //key is smaller than endValue
+            //GO LEFT
+            return 1 + rank(middleNode.rightChild, endValue);
+        } else {
+            //GO RIGHT
+            return sizeOfSubtree() + rank(middleNode.rightChild, endValue);
+
+        }
+    }
+
+    int sizeOfSubtree(){
+        if(root != null){
+            int leftSubtreeSize = root.getLeftSubtreeSize();
+            return leftSubtreeSize;
+        } else {
+            return 0;
+        }
     }
 }
 
@@ -155,6 +188,16 @@ class Node {
 
     public String getName() {
         return this.name;
+    }
+
+    public int getLeftSubtreeSize(){
+        int leftSize = 0;
+
+        if(this.leftChild != null){
+            leftSize = this.getLeftSubtreeSize();
+        }
+
+        return leftSize;
     }
 }
 

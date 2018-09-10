@@ -1,6 +1,7 @@
 // Copy paste this Java Template and save it as "PatientNames.java"
 import java.util.*;
 import java.io.*;
+import java.util.TreeSet;
 
 // write your matric number here:
 // write your name here:
@@ -12,9 +13,8 @@ class PatientNames {
     // is accessible to all methods in this class
 
     // --------------------------------------------
-    BinaryTree theTree;
-
-
+    BinaryTree malePatients;
+    BinaryTree femalePatients;
 
     // --------------------------------------------
 
@@ -24,9 +24,8 @@ class PatientNames {
         // write your answer here
 
         // --------------------------------------------
-
-        theTree = new BinaryTree();
-
+        malePatients = new BinaryTree();
+        femalePatients = new BinaryTree();
         // --------------------------------------------
     }
 
@@ -37,9 +36,11 @@ class PatientNames {
         // write your answer here
 
         // --------------------------------------------
-
-        theTree.addNode(patientName.substring(0,1), patientName, gender);
-
+        if(gender == 1){
+            malePatients.addNode(patientName.substring(0,1), patientName, gender);
+        } else {
+            femalePatients.addNode(patientName.substring(0,1), patientName, gender);
+        }
 
         // --------------------------------------------
     }
@@ -50,15 +51,12 @@ class PatientNames {
         // write your answer here
 
         // --------------------------------------------
-        Node toRemove = theTree.findPatient(patientName);
-
-
-
+        Node toRemove = malePatients.findPatient(patientName);
+        malePatients.remove(toRemove);
         // --------------------------------------------
     }
 
     int Query(String START, String END, int gender) {
-        int ans = 0;
 
         // You have to answer how many patient name starts
         // with prefix that is inside query interval [START..END)
@@ -66,12 +64,30 @@ class PatientNames {
         // write your answer here
 
         // --------------------------------------------
+        int numMales = 0;
+        int numFemales = 0;
 
+        if(gender == 1 || gender == 0){
+            int endValue = malePatients.rank(malePatients.root, END);
+            int startValue = malePatients.rank(malePatients.root, START);
+            numMales = endValue - startValue;
+        }
 
+        if(gender == 2 || gender == 0) {
+            int endValue = femalePatients.rank(femalePatients.root, END);
+            int startValue = femalePatients.rank(femalePatients.root, START);
+            numFemales = endValue - startValue;
+        }
+
+        if(gender == 1){
+            return numMales;
+        } else if(gender == 2){
+            return numFemales;
+        } else {
+            return numMales + numFemales;
+        }
 
         // --------------------------------------------
-
-        return ans;
     }
 
     void run() throws Exception {
