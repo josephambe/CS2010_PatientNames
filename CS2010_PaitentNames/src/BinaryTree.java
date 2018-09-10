@@ -4,11 +4,12 @@ public class BinaryTree {
     Node parent;
     Boolean isLeftNode = true;
 
-    void addNode(String key, String name, int gender) {
-        Node newNode = new Node(key, name, gender);
+    void addNode(String key, String name, int gender, int height) {
+        Node newNode = new Node(key, name, gender, height);
 
         if (root == null) {
             root = newNode;
+            newNode.setHeight(0);
         } else {
             Node focusNode = root;
             while (true) {
@@ -18,6 +19,7 @@ public class BinaryTree {
                     focusNode = focusNode.leftChild;
                     if (focusNode == null) {
                         parentNode.leftChild = newNode;
+                        newNode.setHeight(parentNode.getHeight()+1);
                         return;
                     }
                 } else {
@@ -25,12 +27,17 @@ public class BinaryTree {
                     focusNode = focusNode.rightChild;
                     if (focusNode == null) {
                         parentNode.rightChild = newNode;
+                        newNode.setHeight(parentNode.getHeight()+1);
                         return;
                     }
                 }
             }
         }
+
+        //REBALANCE
     }
+
+
 
     public void inOrderTraversal(Node focusNode){
         if(focusNode != null){
@@ -88,8 +95,10 @@ public class BinaryTree {
                 root = toRemove.leftChild;
             } else if(isLeftNode){
                 parentNode.leftChild = toRemove.leftChild;
+                toRemove.leftChild.setHeight(toRemove.leftChild.getHeight() + 1);
             } else {
                 parentNode.rightChild = toRemove.leftChild;
+                toRemove.leftChild.setHeight(toRemove.leftChild.getHeight() + 1);
             }
 
         //CASE 3: Node toRemove has no left child
@@ -98,8 +107,11 @@ public class BinaryTree {
                 root = toRemove.rightChild;
             } else if(isLeftNode){
                 parentNode.leftChild = toRemove.rightChild;
+                toRemove.rightChild.setHeight(toRemove.rightChild.getHeight() + 1);
             } else {
                 parentNode.rightChild = toRemove.rightChild;
+                toRemove.rightChild.setHeight(toRemove.rightChild.getHeight() + 1);
+
             }
 
         //CASE 4: Node toRemove has a left and right child
@@ -109,8 +121,11 @@ public class BinaryTree {
             if(toRemove == root){
                 root = replacementNode;
             } else if(isLeftNode){
+                replacementNode.setHeight(parentNode.leftChild.getHeight());
                 parentNode.leftChild = replacementNode;
+
             } else {
+                replacementNode.setHeight(parentNode.rightChild.getHeight());
                 parentNode.rightChild = replacementNode;
             }
 
@@ -176,18 +191,28 @@ class Node {
     String key;
     String name;
     int gender;
+    int height;
 
     Node leftChild;
     Node rightChild;
 
-    public Node(String key, String name, int gender) {
+    public Node(String key, String name, int gender, int height) {
         this.key = key;
         this.name = name;
         this.gender = gender;
+        this.height = height;
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public void setHeight(int newHeight) {
+        this.height = newHeight;
+    }
+
+    public int getHeight(){
+        return this.height;
     }
 
     public int getLeftSubtreeSize(){

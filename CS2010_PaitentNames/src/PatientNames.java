@@ -37,9 +37,9 @@ class PatientNames {
 
         // --------------------------------------------
         if(gender == 1){
-            malePatients.addNode(patientName.substring(0,1), patientName, gender);
+            malePatients.addNode(patientName.substring(0,1), patientName, gender,0);
         } else {
-            femalePatients.addNode(patientName.substring(0,1), patientName, gender);
+            femalePatients.addNode(patientName.substring(0,1), patientName, gender,0);
         }
 
         // --------------------------------------------
@@ -52,6 +52,12 @@ class PatientNames {
 
         // --------------------------------------------
         Node toRemove = malePatients.findPatient(patientName);
+
+        if(toRemove == null){
+            toRemove = femalePatients.findPatient(patientName);
+            femalePatients.remove(toRemove);
+            return;
+        }
         malePatients.remove(toRemove);
         // --------------------------------------------
     }
