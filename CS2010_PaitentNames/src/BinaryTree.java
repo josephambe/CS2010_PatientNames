@@ -9,7 +9,8 @@ public class BinaryTree {
 
         if (root == null) {
             root = newNode;
-            newNode.setHeight(0);
+            updateHeight(root,0);
+            //newNode.setHeight(0);
         } else {
             Node focusNode = root;
             while (true) {
@@ -19,7 +20,8 @@ public class BinaryTree {
                     focusNode = focusNode.leftChild;
                     if (focusNode == null) {
                         parentNode.leftChild = newNode;
-                        newNode.setHeight(parentNode.getHeight()+1);
+                        updateHeight(newNode,parentNode.getHeight()+1);
+                        //newNode.setHeight(parentNode.getHeight()+1);
                         return;
                     }
                 } else {
@@ -27,7 +29,8 @@ public class BinaryTree {
                     focusNode = focusNode.rightChild;
                     if (focusNode == null) {
                         parentNode.rightChild = newNode;
-                        newNode.setHeight(parentNode.getHeight()+1);
+                        updateHeight(newNode,parentNode.getHeight()+1);
+                        //newNode.setHeight(parentNode.getHeight()+1);
                         return;
                     }
                 }
@@ -38,6 +41,15 @@ public class BinaryTree {
     }
 
 
+    void updateHeight(Node node, int depth)
+    {
+
+        if (node != null) {
+            node.setHeight(depth);
+            updateHeight(node.leftChild, depth + 1); // left sub-tree
+            updateHeight(node.rightChild, depth + 1); // right sub-tree
+        }
+    }
 
     public void inOrderTraversal(Node focusNode){
         if(focusNode != null){
